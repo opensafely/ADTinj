@@ -1,0 +1,33 @@
+dmd_type,dmd_id,dmd_name,bnf_code
+AMP,3929111000001102,Suprefact 5.5mg/5.5ml solution for injection vials,0803042B0BBAAAA
+VMP,327337009,Goserelin 3.6mg implant pre-filled syringes,0803042K0AAAAAA
+AMP,16551111000001100,Goserelin 3.6mg implant pre-filled syringes,0803042K0AAAAAA
+VMP,327338004,Goserelin 10.8mg implant pre-filled syringes,0803042K0AAABAB
+AMP,824211000001107,Zoladex 3.6mg implant SafeSystem pre-filled syringes,0803042K0BBAAAA
+AMP,512511000001105,Zoladex LA 10.8mg implant SafeSystem pre-filled syringes,0803042K0BBABAB
+AMP,15979611000001103,Novgos 3.6mg implant pre-filled syringes,0803042K0BCAAAA
+VMP,36038311000001105,Leuprorelin 3.75mg powder and solvent for suspension for injection vials,0803042N0AAAAAA
+VMP,36038211000001102,Leuprorelin 11.25mg powder and solvent for suspension for injection vials,0803042N0AAABAB
+VMP,19306211000001104,Leuprorelin 3.75mg powder and solvent for suspension for injection pre-filled syringes,0803042N0AAACAC
+VMP,19306111000001105,Leuprorelin 11.25mg powder and solvent for suspension for injection pre-filled syringes,0803042N0AAADAD
+VMP,30806811000001103,Leuprorelin 22.5mg powder and solvent for suspension for injection vials,0803042N0AAAEAE
+VMP,38007811000001100,Leuprorelin 10.72mg implant pre-filled syringes,0803042N0AAAFAF
+AMP,3410911000001100,Prostap SR 3.75mg powder and solvent for suspension for injection vials,0803042N0BBAAAA
+AMP,3417411000001107,Prostap 3 Depot 11.25mg powder and solvent for suspension for injection vials,0803042N0BBABAB
+AMP,19305111000001104,Prostap SR DCS 3.75mg powder and solvent for suspension for injection pre-filled syringes,0803042N0BBACAC
+AMP,19305911000001101,Prostap 3 DCS 11.25mg powder and solvent for suspension for injection pre-filled syringes,0803042N0BBADAD
+AMP,30802511000001102,Lutrate 1 month Depot 3.75mg powder and solvent for suspension for injection vials,0803042N0BCAAAA
+AMP,30801611000001109,Lutrate 3 month Depot 22.5mg powder and solvent for suspension for injection vials,0803042N0BCABAE
+AMP,38001811000001107,Staladex 10.72mg implant pre-filled syringes,0803042N0BDAAAF
+VMP,36145411000001101,Triptorelin acetate 3mg powder and solvent for suspension for injection vials,0803042P0AAAAAA
+VMP,36145311000001108,Triptorelin acetate 3.75mg powder and solvent for suspension for injection pre-filled syringes,0803042P0AAABAB
+VMP,36145111000001106,Triptorelin 11.25mg powder and solvent for suspension for injection vials,0803042P0AAACAC
+AMP,4146511000001104,Decapeptyl SR 3mg powder and solvent for suspension for injection vials,0803042P0BBAAAA
+AMP,8172811000001102,Decapeptyl SR 11.25mg powder and solvent for suspension for injection vials,0803042P0BBABAC
+AMP,5615111000001102,Gonapeptyl Depot 3.75mg powder and solvent for suspension for injection pre-filled syringes,0803042P0BCAAAB
+VMP,16593111000001109,Degarelix 80mg powder and solvent for solution for injection vials,0803042R0AAAAAA
+VMP,16593011000001108,Degarelix 120mg powder and solvent for solution for injection vials,0803042R0AAABAB
+AMP,16592611000001106,Firmagon 80mg powder and solvent for solution for injection vials,0803042R0BBAAAA
+AMP,16592311000001101,Firmagon 120mg powder and solvent for solution for injection vials,0803042R0BBABAB
+VMP,18496811000001106,Triptorelin embonate 22.5mg powder and solvent for suspension for injection vials,0803042S0AAABAB
+AMP,18478911000001108,Decapeptyl SR 22.5mg powder and solvent for suspension for injection vials,0803042S0BCAAAB
