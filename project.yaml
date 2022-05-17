@@ -10,3 +10,40 @@ actions:
     outputs:
       highly_sensitive:
         cohort: output/input.csv
+
+  generate_ADT_rates_1:    
+    run: cohortextractor:latest generate_cohort --study-definition study_definition --index-date-range "2015-01-01 to 2018-08-01 by month" --skip-existing --output-dir=output --output-format=feather
+    outputs:      
+      highly_sensitive:
+        cohort: output/measures/inp*.feather
+  
+  generate_ADT_rates_2:    
+    run: cohortextractor:latest generate_cohort --study-definition study_definition --index-date-range "2018-09-01 to 2022-04-01 by month" --skip-existing --output-dir=output --output-format=feather
+    outputs:      
+      highly_sensitive:
+        cohort: output/measures/in*.feather
+
+  generate_measures_ADT:
+    run: cohortextractor:latest generate_measures --study-definition study_definition --skip-existing --output-dir=output/measures
+    needs: 
+      [
+        generate_ADT_rates_1,
+        generate_ADT_rates_2,
+      ]
+    outputs:
+      moderately_sensitive:
+        measure_csv1: output/measures/measure_ADT*_rate.csv
+        measure_csv2: output/measures/measure_ADTbyRegion*_rate.csv
+
+  describe_trends:
+    run: r:latest analysis/Descriptive_trends.R
+    needs: 
+      [
+        generate_measures_ADT,
+      ]
+    outputs:
+      moderately_sensitive:
+        Fig1: output/ADT_count.png
+        Fig2: output/ADT_rates.png
+        Fig3: output/ADTmodel_rates.png
+        Fig4: output/ADTbyRegion.png

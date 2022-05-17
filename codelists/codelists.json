@@ -1,3 +1,16 @@
 {
-  "files": {}
+  "files": {
+    "opensafely-ethnicity.csv": {
+      "id": "opensafely/ethnicity/2020-04-27",
+      "url": "https://codelists.opensafely.org/codelist/opensafely/ethnicity/2020-04-27/",
+      "downloaded_at": "2022-05-04 12:57:17.754504Z",
+      "sha": "3d2f3998b71863a80b24d60f6f4282e14191ae13"
+    },
+    "user-agleman-adt-injectable-dmd.csv": {
+      "id": "user/agleman/adt-injectable-dmd/20f9318d",
+      "url": "https://codelists.opensafely.org/codelist/user/agleman/adt-injectable-dmd/20f9318d/",
+      "downloaded_at": "2022-05-04 12:39:38.338384Z",
+      "sha": "54d07f72c2e7c61a565a79a869ad86a8386a9814"
+    }
+  }
 }
