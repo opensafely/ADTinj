@@ -12,19 +12,19 @@ actions:
         cohort: output/input.csv
 
   generate_ADT_rates_1:    
-    run: cohortextractor:latest generate_cohort --study-definition study_definition --index-date-range "2015-01-01 to 2018-08-01 by month" --skip-existing --output-dir=output --output-format=feather
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_rates --index-date-range "2015-01-01 to 2018-08-01 by month" --skip-existing --output-dir=output --output-format=feather
     outputs:      
       highly_sensitive:
         cohort: output/measures/inp*.feather
   
   generate_ADT_rates_2:    
-    run: cohortextractor:latest generate_cohort --study-definition study_definition --index-date-range "2018-09-01 to 2022-04-01 by month" --skip-existing --output-dir=output --output-format=feather
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_rates --index-date-range "2018-09-01 to 2022-04-01 by month" --skip-existing --output-dir=output --output-format=feather
     outputs:      
       highly_sensitive:
         cohort: output/measures/in*.feather
 
   generate_measures_ADT:
-    run: cohortextractor:latest generate_measures --study-definition study_definition --skip-existing --output-dir=output/measures
+    run: cohortextractor:latest generate_measures --study-definition study_definition_rates --skip-existing --output-dir=output/measures
     needs: 
       [
         generate_ADT_rates_1,
