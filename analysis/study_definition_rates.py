@@ -59,27 +59,116 @@ study = StudyDefinition(
             },
         },
     ),
-    ADT=patients.with_these_medications(
+    imd_cat=patients.categorised_as(
+        {
+            "IMD_0": "DEFAULT",
+            "IMD_1": """index_of_multiple_deprivation >=1 AND index_of_multiple_deprivation < 32844*1/5""",
+            "IMD_2": """index_of_multiple_deprivation >= 32844*1/5 AND index_of_multiple_deprivation < 32844*2/5""",
+            "IMD_3": """index_of_multiple_deprivation >= 32844*2/5 AND index_of_multiple_deprivation < 32844*3/5""",
+            "IMD_4": """index_of_multiple_deprivation >= 32844*3/5 AND index_of_multiple_deprivation < 32844*4/5""",
+            "IMD_5": """index_of_multiple_deprivation >= 32844*4/5 AND index_of_multiple_deprivation < 32844""",
+        },
+        index_of_multiple_deprivation=patients.address_as_of(
+            "index_date",
+            returning="index_of_multiple_deprivation",
+            round_to_nearest=100,
+        ),
+        return_expectations={
+            "rate": "universal",
+            "category": {
+                "ratios": {
+                    "IMD_0": 0.05,
+                    "IMD_1": 0.19,
+                    "IMD_2": 0.19,
+                    "IMD_3": 0.19,
+                    "IMD_4": 0.19,
+                    "IMD_5": 0.19,
+                }
+            },
+        },
+    ),
+######### injectables 
+    ADTinj=patients.with_these_medications(
         ADTinj,
         between=["index_date", "last_day_of_month(index_date)"],
         returning="binary_flag",
         return_expectations={"incidence": 0.50},
     ),
+######### oral treatment
+    ADToral=patients.with_these_medications(
+        ADToral,
+        between=["index_date", "last_day_of_month(index_date)"],
+        returning="binary_flag",
+        return_expectations={"incidence": 0.50},
+    ),
+
+# ######### high cost drugs
+#     abiraterone=patients.with_high_cost_drugs(
+#         drug_name_matches="abiraterone",
+#         on_or_after="2019-03-01",
+#         find_first_match_in_period=True,
+#         returning="date",
+#         date_format="YYYY-MM",
+#         return_expectations={"date": {"earliest": "2019-03-01"}},
+#     ),
+
 )
 
 measures = [
     Measure(
-        id="ADT_rate",
-        numerator="ADT",
+        id="ADT_inj_rate",
+        numerator="ADTinj",
         denominator="population",
         group_by="population",
         small_number_suppression=True,
     ),
     Measure(
-        id="ADTbyRegion_rate",
-        numerator="ADT",
+        id="ADTinjbyRegion_rate",
+        numerator="ADTinj",
         denominator="population",
         group_by="region",
+        small_number_suppression=True,
+    ),
+    Measure(
+        id="ADTinjbyIMD_rate",
+        numerator="ADTinj",
+        denominator="population",
+        group_by="imd_cat",
+        small_number_suppression=True,
+    ),
+    Measure(
+        id="ADTinjbyEthnicity_rate",
+        numerator="ADTinj",
+        denominator="population",
+        group_by="ethnicity",
+        small_number_suppression=True,
+    ),
+    Measure(
+        id="ADT_oral_rate",
+        numerator="ADToral",
+        denominator="population",
+        group_by="population",
+        small_number_suppression=True,
+    ),
+    Measure(
+        id="ADToralbyRegion_rate",
+        numerator="ADToral",
+        denominator="population",
+        group_by="region",
+        small_number_suppression=True,
+    ),
+    Measure(
+        id="ADToralbyIMD_rate",
+        numerator="ADToral",
+        denominator="population",
+        group_by="imd_cat",
+        small_number_suppression=True,
+    ),
+    Measure(
+        id="ADToralbyEthnicity_rate",
+        numerator="ADToral",
+        denominator="population",
+        group_by="ethnicity",
         small_number_suppression=True,
     ),
 ]
