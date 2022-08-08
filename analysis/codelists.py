@@ -19,3 +19,22 @@ ADTinj = codelist_from_csv(
     system="snomed",
     column="dmd_id",
 )
+
+ADToral = codelist_from_csv(
+    "codelists/user-agleman-oral-adt-prostate-ca-dmd.csv",
+    system="snomed",
+    column="dmd_id",
+)
+
+prostate_cancer_codes = codelist_from_csv(
+    "codelists/user-agleman-prostate_cancer_snomed.csv",
+    system="snomed",
+    column="code",
+)
+
+# Abiraterone
+# abiraterone = codelist(
+#     ["abiraterone", "abiraterone acetate", "abiraterone acetate 500mg", "abiraterone acetate 500mg tablets", "Zytiga 500mg tablets", "Zytiga 500mg tablets (Janssen-Cilag Ltd)"], 
+#     system="ctv3"
+# )
+

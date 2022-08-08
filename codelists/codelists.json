@@ -11,6 +11,18 @@
       "url": "https://codelists.opensafely.org/codelist/user/agleman/adt-injectable-dmd/20f9318d/",
       "downloaded_at": "2022-05-04 12:39:38.338384Z",
       "sha": "54d07f72c2e7c61a565a79a869ad86a8386a9814"
+    },
+    "user-agleman-prostate_cancer_snomed.csv": {
+      "id": "user/agleman/prostate_cancer_snomed/051ac36b",
+      "url": "https://codelists.opensafely.org/codelist/user/agleman/prostate_cancer_snomed/051ac36b/",
+      "downloaded_at": "2022-08-08 13:14:59.472192Z",
+      "sha": "e34c03a84feae9b9748a4b88626cbfaa6374cb18"
+    },
+    "user-agleman-oral-adt-prostate-ca-dmd.csv": {
+      "id": "user/agleman/oral-adt-prostate-ca-dmd/1e2a36a0",
+      "url": "https://codelists.opensafely.org/codelist/user/agleman/oral-adt-prostate-ca-dmd/1e2a36a0/",
+      "downloaded_at": "2022-08-08 13:14:59.723303Z",
+      "sha": "f7f131f6f457db3aff5a6b84b0773a5975c54df2"
     }
   }
 }

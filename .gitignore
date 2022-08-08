@@ -10,3 +10,8 @@ venv/
 .Rhistory
 .Rproj.user/
 *.Rproj
+/r_scripts/*
+/output_requests_releases/*
+/analysis/plots.R
+*.Rmd
+*.pdf
