@@ -19,10 +19,34 @@ study = StudyDefinition(
     population=patients.satisfying(
         """
         registered
+        AND NOT has_died
+        AND prostate_ca
         AND (sex="M")
         AND (age >=18 AND age <= 110)
         """
     ),
+    registered=patients.registered_as_of(
+        "index_date",
+        return_expectations={"incidence":0.95}
+    ),
+    has_died=patients.died_from_any_cause(
+        on_or_before="index_date",
+        returning="binary_flag",
+    ),
+    prostate_ca=patients.with_these_clinical_events(
+        prostate_cancer_codes,
+        on_or_after="1950-01-01",
+        find_first_match_in_period=True,
+        include_date_of_match=True,
+        include_month=True,
+        include_day=True,
+        returning="binary_flag",
+        return_expectations={
+            "date": {"earliest": "1950-01-01", "latest": "today"},
+            "incidence": 1.0
+        }
+    ),
+    # demographics
     age=patients.age_as_of(
         "index_date",
         return_expectations={
@@ -30,15 +54,30 @@ study = StudyDefinition(
             "int": {"distribution": "population_ages"},
         },
     ),
+    age_group=patients.categorised_as(
+        {
+            "<65": "DEFAULT",
+            "65-74": """ age >= 65 AND age < 75""",
+            "75-84": """ age >= 75 AND age < 85""",
+            "85+": """ age >=  85 AND age < 120""",
+        },
+        return_expectations={
+            "rate": "universal",
+            "category": {
+                "ratios": {
+                    "<65": 0.25,
+                    "65-74": 0.25,
+                    "75-84": 0.25,
+                    "85+": 0.25,
+                }
+            },
+        },
+    ),
     sex=patients.sex(
         return_expectations={
             "rate": "universal",
             "category": {"ratios": {"M": 0.49, "F": 0.51}},
         }
-    ),
-    registered=patients.registered_as_of(
-        "index_date",
-        return_expectations={"incidence":0.95}
     ),
     region=patients.registered_practice_as_of(
         "index_date",
@@ -144,6 +183,13 @@ measures = [
         small_number_suppression=True,
     ),
     Measure(
+        id="ADTinjbyAge_rate",
+        numerator="ADTinj",
+        denominator="population",
+        group_by="age_group",
+        small_number_suppression=True,
+    ),
+    Measure(
         id="ADT_oral_rate",
         numerator="ADToral",
         denominator="population",
@@ -169,6 +215,13 @@ measures = [
         numerator="ADToral",
         denominator="population",
         group_by="ethnicity",
+        small_number_suppression=True,
+    ),
+    Measure(
+        id="ADToralbyAge_rate",
+        numerator="ADToral",
+        denominator="population",
+        group_by="age_group",
         small_number_suppression=True,
     ),
 ]

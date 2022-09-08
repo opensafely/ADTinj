@@ -15,30 +15,31 @@ study = StudyDefinition(
         "rate": "uniform",
         "incidence": 0.5,
         },
-    index_date="2015-01-01", # for measures
+    index_date="2015-01-01",
     population=patients.satisfying(
         """
         registered
+        AND prostate_ca
         AND (sex="M")
         AND (age >=18 AND age <= 110)
         """
     ),
     prostate_ca=patients.with_these_clinical_events(
         prostate_cancer_codes,
-        on_or_after="1900-01-01",
+        on_or_after="index_date",
         find_first_match_in_period=True,
         include_date_of_match=True,
         include_month=True,
         include_day=True,
         returning="binary_flag",
         return_expectations={
-            "date": {"earliest": "2013-01-01", "latest": "today"},
+            "date": {"earliest": "2015-01-01", "latest": "today"},
             "incidence": 1.0
         }
     ),
 
     age=patients.age_as_of(
-        "index_date",
+        "prostate_ca_date",
         return_expectations={
             "rate": "exponential_increase",
             "int": {"distribution": "population_ages"},
@@ -146,13 +147,13 @@ study = StudyDefinition(
 
     ADTinjs=patients.with_these_medications(
         ADTinj,
-        between=["index_date", "last_day_of_month(index_date)"],
+        on_or_after="index_date",
         returning="binary_flag",
         return_expectations={"incidence": 0.50},
     ),
     ADToral=patients.with_these_medications(
         ADToral,
-        between=["index_date", "last_day_of_month(index_date)"],
+        on_or_after="index_date",
         returning="binary_flag",
         return_expectations={"incidence": 0.50},
     ),

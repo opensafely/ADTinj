@@ -31,7 +31,7 @@ prostate_cancer_codes = codelist_from_csv(
     system="snomed",
     column="code",
 )
-
+# high cost drugs from the hospital - this is not avaiable pass 3 2020 - not usable 
 # Abiraterone
 # abiraterone = codelist(
 #     ["abiraterone", "abiraterone acetate", "abiraterone acetate 500mg", "abiraterone acetate 500mg tablets", "Zytiga 500mg tablets", "Zytiga 500mg tablets (Janssen-Cilag Ltd)"], 
