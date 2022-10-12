@@ -1,7 +1,7 @@
 ### INFO
 # project: Project #28: Androgen deprivation therapy (ADT) for prostate cancer and COVID-19
 # author: Agz Leman
-# 8th Sept 2022
+# 12th October 2022
 # Plots monthly rates 
 ###
 
@@ -9,12 +9,37 @@
 library(tidyverse)
 library(here)
 library(MASS)
+library(plyr)
+
+## Redactor code (W.Hulme)
+redactor <- function(n, threshold=7,e_overwrite=NA_integer_){
+  # given a vector of frequencies, this returns a boolean vector that is TRUE if
+  # a) the frequency is <= the redaction threshold and
+  # b) if the sum of redacted frequencies in a) is still <= the threshold, then the
+  # next largest frequency is also redacted
+  n <- as.integer(n)
+  leq_threshold <- dplyr::between(n, 1, threshold)
+  n_sum <- sum(n)
+  # redact if n is less than or equal to redaction threshold
+  redact <- leq_threshold
+  # also redact next smallest n if sum of redacted n is still less than or equal to threshold
+  if((sum(n*leq_threshold) <= threshold) & any(leq_threshold)){
+    redact[which.min(dplyr::if_else(leq_threshold, n_sum+1L, n))] = TRUE
+  }
+  n_redacted <- if_else(redact, e_overwrite, n)
+}
 
 start <- "2020-03-01"
 
 ADTinj_Rates <- read_csv(here::here("output", "measures", "measure_ADT_inj_rate.csv"))
 ###
-# count ADT injectables 
+# Redact and round counts 
+###
+ADTinj_Rates$ADTinj <- redactor(ADTinj_Rates$ADTinj) 
+ADTinj_Rates$ADTinj <- round_any(ADTinj_Rates$ADTinj,5)
+
+###
+# Plot count ADT injectables 
 ###
 p <- ggplot(data = ADTinj_Rates,
                     aes(date, ADTinj)) +
@@ -30,7 +55,7 @@ p <- ggplot(data = ADTinj_Rates,
 p <- p + geom_vline(xintercept=as.Date(start, format="%Y-%m-%d"), size=0.3, colour="red")
 p <- p +  geom_text(aes(x=as.Date(start, format="%Y-%m-%d")+5, y=min(ADTinj_Rates$ADTinj)+(sd(ADTinj_Rates$ADTinj)*2)), 
                     color = "red",label="Start of\nrestrictions", angle = 90, size = 3)
-p <- p + labs(caption="OpenSafely-TPP September 2022")
+p <- p + labs(caption="OpenSafely-TPP October 2022")
 p <- p + theme(plot.caption = element_text(size=8))
 p <- p + theme(plot.title = element_text(size = 10))
 
@@ -56,7 +81,7 @@ p <- ggplot(data = ADTinj_Rates, aes(date, rate)) +
 p <- p + geom_vline(xintercept=as.Date(start, format="%Y-%m-%d"), size=0.3, colour="red")
 p <- p +  geom_text(aes(x=as.Date(start, format="%Y-%m-%d")+5, y=min(ADTinj_Rates$rate)+(sd(ADTinj_Rates$rate)*2)), 
                     color = "red",label="Start of\nrestrictions", angle = 90, size = 3)
-p <- p + labs(caption="OpenSafely-TPP September 2022")
+p <- p + labs(caption="OpenSafely-TPP October 2022")
 p <- p + theme(plot.caption = element_text(size=8))
 p <- p + theme(plot.title = element_text(size = 10))
 
@@ -81,7 +106,7 @@ p <- ggplot(data = Region,
        x = "", y = "Rate per 100.000 \nmales with prostate cancer")+
   theme_bw()+
   theme(axis.text.x = element_text(angle = 45, hjust = 1), legend.position="bottom")
-p <- p + labs(caption="OpenSafely-TPP September 2022")
+p <- p + labs(caption="OpenSafely-TPP October 2022")
 p <- p + theme(plot.caption = element_text(size=8))
 p <- p + theme(plot.title = element_text(size = 10))
 
@@ -108,7 +133,7 @@ p <- ggplot(data = IMD,
        x = "", y = "Rate per 100.000 \nmales with prostate cancer")+
   theme_bw()+
   theme(axis.text.x = element_text(angle = 45, hjust = 1), legend.position="bottom")
-p <- p + labs(caption="OpenSafely-TPP September 2022")
+p <- p + labs(caption="OpenSafely-TPP October 2022")
 p <- p + theme(plot.caption = element_text(size=8))
 p <- p + theme(plot.title = element_text(size = 10))
 p <- p + geom_vline(xintercept=as.Date(start, format="%Y-%m-%d"), size=0.3, colour="red")
@@ -133,7 +158,7 @@ p <- ggplot(data = Ethn,
        x = "", y = "Rate per 100.000 \nmales with prostate cancer")+
   theme_bw()+
   theme(axis.text.x = element_text(angle = 45, hjust = 1), legend.position="bottom")
-p <- p + labs(caption="OpenSafely-TPP September 2022")
+p <- p + labs(caption="OpenSafely-TPP October 2022")
 p <- p + theme(plot.caption = element_text(size=8))
 p <- p + theme(plot.title = element_text(size = 10))
 p <- p + geom_vline(xintercept=as.Date(start, format="%Y-%m-%d"), size=0.3, colour="red")
@@ -158,7 +183,7 @@ p <- ggplot(data = Age,
        x = "", y = "Rate per 100.000 \nmales with prostate cancer")+
   theme_bw()+
   theme(axis.text.x = element_text(angle = 45, hjust = 1), legend.position="bottom")
-p <- p + labs(caption="OpenSafely-TPP September 2022")
+p <- p + labs(caption="OpenSafely-TPP October 2022")
 p <- p + theme(plot.caption = element_text(size=8))
 p <- p + theme(plot.title = element_text(size = 10))
 p <- p + geom_vline(xintercept=as.Date(start, format="%Y-%m-%d"), size=0.3, colour="red")
@@ -175,7 +200,18 @@ ggsave(
 #######
 #################################################
 
+
+###
+# Load data
+###
 ADToral_Rates <- read_csv(here::here("output", "measures", "measure_ADT_oral_rate.csv"))
+
+###
+# Redact and round counts 
+###
+ADToral_Rates$ADToral <- redactor(ADToral_Rates$ADToral) 
+ADToral_Rates$ADToral <- round_any(ADToral_Rates$ADToral,5)
+
 ###
 # count ADT Oral medications  
 ###
@@ -193,7 +229,7 @@ p <- ggplot(data = ADToral_Rates,
 p <- p + geom_vline(xintercept=as.Date(start, format="%Y-%m-%d"), size=0.3, colour="red")
 p <- p +  geom_text(aes(x=as.Date(start, format="%Y-%m-%d")+5, y=min(ADToral_Rates$ADToral)+(sd(ADToral_Rates$ADToral)*2)), 
                     color = "red",label="Start of\nrestrictions", angle = 90, size = 3)
-p <- p + labs(caption="OpenSafely-TPP September 2022")
+p <- p + labs(caption="OpenSafely-TPP October 2022")
 p <- p + theme(plot.caption = element_text(size=8))
 p <- p + theme(plot.title = element_text(size = 10))
 
@@ -220,7 +256,7 @@ p <- ggplot(data = ADToral_Rates,
 p <- p + geom_vline(xintercept=as.Date(start, format="%Y-%m-%d"), size=0.3, colour="red")
 p <- p +  geom_text(aes(x=as.Date(start, format="%Y-%m-%d")+5, y=min(ADToral_Rates$rate)+(sd(ADToral_Rates$rate)*2)), 
                     color = "red",label="Start of\nrestrictions", angle = 90, size = 3)
-p <- p + labs(caption="OpenSafely-TPP September 2022")
+p <- p + labs(caption="OpenSafely-TPP October 2022")
 p <- p + theme(plot.caption = element_text(size=8))
 p <- p + theme(plot.title = element_text(size = 10))
 
@@ -245,7 +281,7 @@ p <- ggplot(data = Region,
        x = "", y = "Rate per 100.000 \nmales with prostate cancer")+
   theme_bw()+
   theme(axis.text.x = element_text(angle = 45, hjust = 1), legend.position="bottom")
-p <- p + labs(caption="OpenSafely-TPP September 2022")
+p <- p + labs(caption="OpenSafely-TPP October 2022")
 p <- p + theme(plot.caption = element_text(size=8))
 p <- p + theme(plot.title = element_text(size = 10))
 
@@ -272,7 +308,7 @@ p <- ggplot(data = IMD,
        x = "", y = "Rate per 100.000 \nmales with prostate cancer")+
   theme_bw()+
   theme(axis.text.x = element_text(angle = 45, hjust = 1), legend.position="bottom")
-p <- p + labs(caption="OpenSafely-TPP September 2022")
+p <- p + labs(caption="OpenSafely-TPP October 2022")
 p <- p + theme(plot.caption = element_text(size=8))
 p <- p + theme(plot.title = element_text(size = 10))
 p <- p + geom_vline(xintercept=as.Date(start, format="%Y-%m-%d"), size=0.3, colour="red")
@@ -297,7 +333,7 @@ p <- ggplot(data = Ethn,
        x = "", y = "Rate per 100.000 \nmales with prostate cancer")+
   theme_bw()+
   theme(axis.text.x = element_text(angle = 45, hjust = 1), legend.position="bottom")
-p <- p + labs(caption="OpenSafely-TPP September 2022")
+p <- p + labs(caption="OpenSafely-TPP October 2022")
 p <- p + theme(plot.caption = element_text(size=8))
 p <- p + theme(plot.title = element_text(size = 10))
 p <- p + geom_vline(xintercept=as.Date(start, format="%Y-%m-%d"), size=0.3, colour="red")
@@ -322,7 +358,7 @@ p <- ggplot(data = Age,
        x = "", y = "Rate per 100.000 \nmales with prostate cancer")+
   theme_bw()+
   theme(axis.text.x = element_text(angle = 45, hjust = 1), legend.position="bottom")
-p <- p + labs(caption="OpenSafely-TPP September 2022")
+p <- p + labs(caption="OpenSafely-TPP October 2022")
 p <- p + theme(plot.caption = element_text(size=8))
 p <- p + theme(plot.title = element_text(size = 10))
 p <- p + geom_vline(xintercept=as.Date(start, format="%Y-%m-%d"), size=0.3, colour="red")
