@@ -7,7 +7,7 @@ from cohortextractor import (
 from codelists import *
 
 start_date = "2015-01-01"
-end_date = "today"
+end_date = "2022-12-01"
 
 study = StudyDefinition(
     default_expectations={
@@ -15,18 +15,16 @@ study = StudyDefinition(
         "rate": "uniform",
         "incidence": 0.5,
         },
-    index_date="2015-01-01",
+    index_date="2022-12-01",
     population=patients.satisfying(
         """
-        registered
-        AND prostate_ca
-        AND (sex="M")
+        prostate_ca
         AND (age >=18 AND age <= 110)
         """
     ),
     prostate_ca=patients.with_these_clinical_events(
         prostate_cancer_codes,
-        on_or_after="index_date",
+        on_or_before="index_date",
         find_first_match_in_period=True,
         include_date_of_match=True,
         include_month=True,
@@ -84,10 +82,6 @@ study = StudyDefinition(
             },
         ),
     ),
-    registered=patients.registered_as_of(
-        "index_date",
-        return_expectations={"incidence":0.95}
-    ),
     region=patients.registered_practice_as_of(
         "index_date",
         returning="nuts1_region_name",
@@ -118,7 +112,7 @@ study = StudyDefinition(
     ),
     imd_cat=patients.categorised_as(
         {
-            "0": "DEFAULT",
+            "Missing": "DEFAULT",
             "1": """index_of_multiple_deprivation >=1 AND index_of_multiple_deprivation < 32844*1/5""",
             "2": """index_of_multiple_deprivation >= 32844*1/5 AND index_of_multiple_deprivation < 32844*2/5""",
             "3": """index_of_multiple_deprivation >= 32844*2/5 AND index_of_multiple_deprivation < 32844*3/5""",
@@ -134,7 +128,7 @@ study = StudyDefinition(
             "rate": "universal",
             "category": {
                 "ratios": {
-                    "0": 0.05,
+                    "Missing": 0.05,
                     "1": 0.19,
                     "2": 0.19,
                     "3": 0.19,
@@ -147,14 +141,21 @@ study = StudyDefinition(
 
     ADTinjs=patients.with_these_medications(
         ADTinj,
-        on_or_after="index_date",
+        on_or_before="index_date",
         returning="binary_flag",
         return_expectations={"incidence": 0.50},
     ),
     ADToral=patients.with_these_medications(
         ADToral,
-        on_or_after="index_date",
+        on_or_before="index_date",
         returning="binary_flag",
         return_expectations={"incidence": 0.50},
     ),
+    hcd=patients.with_high_cost_drugs(
+        drug_name_matches=["enzalutamide","abiraterone","darolutamide","apalutamide"],
+        on_or_before="index_date",
+        find_first_match_in_period=True,
+        returning="binary_flag",
+        return_expectations={"incidence": 0.15,},
+    )
 )

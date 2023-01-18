@@ -35,7 +35,7 @@ study = StudyDefinition(
     ),
     prostate_ca=patients.with_these_clinical_events(
         prostate_cancer_codes,
-        on_or_after="1950-01-01",
+        on_or_before="index_date",
         find_first_match_in_period=True,
         include_date_of_match=True,
         include_month=True,
@@ -56,7 +56,8 @@ study = StudyDefinition(
     ),
     age_group=patients.categorised_as(
         {
-            "<65": "DEFAULT",
+            "Missing": "DEFAULT",
+            "<65": """ age < 65""",
             "65-74": """ age >= 65 AND age < 75""",
             "75-84": """ age >= 75 AND age < 85""",
             "85+": """ age >=  85 AND age < 120""",
@@ -65,10 +66,11 @@ study = StudyDefinition(
             "rate": "universal",
             "category": {
                 "ratios": {
-                    "<65": 0.25,
-                    "65-74": 0.25,
-                    "75-84": 0.25,
-                    "85+": 0.25,
+                    "Missing": 0.2, 
+                    "<65": 0.2,
+                    "65-74": 0.2,
+                    "75-84": 0.2,
+                    "85+": 0.2,
                 }
             },
         },
@@ -100,7 +102,7 @@ study = StudyDefinition(
     ),
     imd_cat=patients.categorised_as(
         {
-            "IMD_0": "DEFAULT",
+            "Missing": "DEFAULT",
             "IMD_1": """index_of_multiple_deprivation >=1 AND index_of_multiple_deprivation < 32844*1/5""",
             "IMD_2": """index_of_multiple_deprivation >= 32844*1/5 AND index_of_multiple_deprivation < 32844*2/5""",
             "IMD_3": """index_of_multiple_deprivation >= 32844*2/5 AND index_of_multiple_deprivation < 32844*3/5""",
@@ -116,7 +118,7 @@ study = StudyDefinition(
             "rate": "universal",
             "category": {
                 "ratios": {
-                    "IMD_0": 0.05,
+                    "Missing": 0.05,
                     "IMD_1": 0.19,
                     "IMD_2": 0.19,
                     "IMD_3": 0.19,
@@ -129,6 +131,24 @@ study = StudyDefinition(
 ######### injectables 
     ADTinj=patients.with_these_medications(
         ADTinj,
+        between=["index_date", "last_day_of_month(index_date)"],
+        returning="binary_flag",
+        return_expectations={"incidence": 0.50},
+    ),
+    ADTinj1=patients.with_these_medications(
+        ADTinj1,
+        between=["index_date", "last_day_of_month(index_date)"],
+        returning="binary_flag",
+        return_expectations={"incidence": 0.50},
+    ),
+    ADTinj3=patients.with_these_medications(
+        ADTinj3,
+        between=["index_date", "last_day_of_month(index_date)"],
+        returning="binary_flag",
+        return_expectations={"incidence": 0.50},
+    ),
+    ADTinj6=patients.with_these_medications(
+        ADTinj6,
         between=["index_date", "last_day_of_month(index_date)"],
         returning="binary_flag",
         return_expectations={"incidence": 0.50},
@@ -157,6 +177,27 @@ measures = [
     Measure(
         id="ADT_inj_rate",
         numerator="ADTinj",
+        denominator="population",
+        group_by="population",
+        small_number_suppression=True,
+    ),
+    Measure(
+        id="ADT_inj1_rate",
+        numerator="ADTinj1",
+        denominator="population",
+        group_by="population",
+        small_number_suppression=True,
+    ),
+        Measure(
+        id="ADT_inj3_rate",
+        numerator="ADTinj3",
+        denominator="population",
+        group_by="population",
+        small_number_suppression=True,
+    ),
+        Measure(
+        id="ADT_inj6_rate",
+        numerator="ADTinj6",
         denominator="population",
         group_by="population",
         small_number_suppression=True,
