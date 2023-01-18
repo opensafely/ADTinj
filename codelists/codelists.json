@@ -23,6 +23,24 @@
       "url": "https://codelists.opensafely.org/codelist/user/agleman/oral-adt-prostate-ca-dmd/1e2a36a0/",
       "downloaded_at": "2022-08-08 13:14:59.723303Z",
       "sha": "f7f131f6f457db3aff5a6b84b0773a5975c54df2"
+    },
+    "user-agleman-adt-inj-1monthly-dmd.csv": {
+      "id": "user/agleman/adt-inj-1monthly-dmd/3ccec219",
+      "url": "https://codelists.opensafely.org/codelist/user/agleman/adt-inj-1monthly-dmd/3ccec219/",
+      "downloaded_at": "2023-01-17 16:00:34.760531Z",
+      "sha": "8a2a346f8f532fcf0caad89c632de18d67ba1213"
+    },
+    "user-agleman-adt-inj-3monthly-dmd.csv": {
+      "id": "user/agleman/adt-inj-3monthly-dmd/6eeda883",
+      "url": "https://codelists.opensafely.org/codelist/user/agleman/adt-inj-3monthly-dmd/6eeda883/",
+      "downloaded_at": "2023-01-17 16:00:35.029783Z",
+      "sha": "c9abf9081130b276ba862cb00e7b30bdddb33f68"
+    },
+    "user-agleman-adt-inj-6monthly-dmd.csv": {
+      "id": "user/agleman/adt-inj-6monthly-dmd/210c8eee",
+      "url": "https://codelists.opensafely.org/codelist/user/agleman/adt-inj-6monthly-dmd/210c8eee/",
+      "downloaded_at": "2023-01-17 16:00:35.275293Z",
+      "sha": "829ff178097024c931f04d072271fa431ad32b1c"
     }
   }
 }

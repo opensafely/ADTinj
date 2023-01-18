@@ -2,3 +2,6 @@ opensafely/ethnicity/2020-04-27
 user/agleman/adt-injectable-dmd/20f9318d
 user/agleman/prostate_cancer_snomed/051ac36b
 user/agleman/oral-adt-prostate-ca-dmd/1e2a36a0
+user/agleman/adt-inj-1monthly-dmd/3ccec219
+user/agleman/adt-inj-3monthly-dmd/6eeda883
+user/agleman/adt-inj-6monthly-dmd/210c8eee
