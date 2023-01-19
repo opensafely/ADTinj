@@ -7,7 +7,7 @@ from cohortextractor import (
 from codelists import *
 
 start_date = "2015-01-01"
-end_date = "today"
+end_date = "2022-12-01"
 
 study = StudyDefinition(
     default_expectations={
@@ -22,7 +22,7 @@ study = StudyDefinition(
         AND NOT has_died
         AND prostate_ca
         AND (sex="M")
-        AND (age >=18 AND age <= 110)
+        AND (age >=18 AND age <= 120)
         """
     ),
     registered=patients.registered_as_of(
@@ -35,7 +35,7 @@ study = StudyDefinition(
     ),
     prostate_ca=patients.with_these_clinical_events(
         prostate_cancer_codes,
-        on_or_before="index_date",
+        on_or_before="last_day_of_month(index_date)",
         find_first_match_in_period=True,
         include_date_of_match=True,
         include_month=True,
@@ -60,7 +60,7 @@ study = StudyDefinition(
             "<65": """ age < 65""",
             "65-74": """ age >= 65 AND age < 75""",
             "75-84": """ age >= 75 AND age < 85""",
-            "85+": """ age >=  85 AND age < 120""",
+            "85+": """ age >= 85""",
         },
         return_expectations={
             "rate": "universal",
@@ -128,49 +128,53 @@ study = StudyDefinition(
             },
         },
     ),
-######### injectables 
+######### injectables
     ADTinj=patients.with_these_medications(
         ADTinj,
-        between=["index_date", "last_day_of_month(index_date)"],
+        between=[
+            "first_day_of_month(index_date)",
+            "last_day_of_month(index_date)",
+            ],
         returning="binary_flag",
         return_expectations={"incidence": 0.50},
     ),
     ADTinj1=patients.with_these_medications(
         ADTinj1,
-        between=["index_date", "last_day_of_month(index_date)"],
+        between=[
+            "first_day_of_month(index_date)",
+            "last_day_of_month(index_date)",
+            ],
         returning="binary_flag",
         return_expectations={"incidence": 0.50},
     ),
     ADTinj3=patients.with_these_medications(
         ADTinj3,
-        between=["index_date", "last_day_of_month(index_date)"],
+        between=[
+            "first_day_of_month(index_date)",
+            "last_day_of_month(index_date)",
+            ],
         returning="binary_flag",
         return_expectations={"incidence": 0.50},
     ),
     ADTinj6=patients.with_these_medications(
         ADTinj6,
-        between=["index_date", "last_day_of_month(index_date)"],
+        between=[
+            "first_day_of_month(index_date)",
+            "last_day_of_month(index_date)",
+            ],
         returning="binary_flag",
         return_expectations={"incidence": 0.50},
     ),
 ######### oral treatment
     ADToral=patients.with_these_medications(
         ADToral,
-        between=["index_date", "last_day_of_month(index_date)"],
+        between=[
+            "first_day_of_month(index_date)",
+            "last_day_of_month(index_date)",
+            ],
         returning="binary_flag",
         return_expectations={"incidence": 0.50},
     ),
-
-# ######### high cost drugs
-#     abiraterone=patients.with_high_cost_drugs(
-#         drug_name_matches="abiraterone",
-#         on_or_after="2019-03-01",
-#         find_first_match_in_period=True,
-#         returning="date",
-#         date_format="YYYY-MM",
-#         return_expectations={"date": {"earliest": "2019-03-01"}},
-#     ),
-
 )
 
 measures = [
@@ -188,14 +192,14 @@ measures = [
         group_by="population",
         small_number_suppression=True,
     ),
-        Measure(
+    Measure(
         id="ADT_inj3_rate",
         numerator="ADTinj3",
         denominator="population",
         group_by="population",
         small_number_suppression=True,
     ),
-        Measure(
+    Measure(
         id="ADT_inj6_rate",
         numerator="ADTinj6",
         denominator="population",

@@ -14,47 +14,16 @@ study = StudyDefinition(
         "date": {"earliest": "2015-01-01", "latest": "today"},
         "rate": "uniform",
         "incidence": 0.5,
-        },
+    },
     index_date="2022-12-01",
-    population=patients.satisfying(
-        """
-        prostate_ca
-        AND (age >=18 AND age <= 110)
-        """
-    ),
-    prostate_ca=patients.with_these_clinical_events(
-        prostate_cancer_codes,
-        on_or_before="index_date",
-        find_first_match_in_period=True,
-        include_date_of_match=True,
-        include_month=True,
-        include_day=True,
-        returning="binary_flag",
-        return_expectations={
-            "date": {"earliest": "2015-01-01", "latest": "today"},
-            "incidence": 1.0
-        }
-    ),
+    population=patients.all(),
 
-    age=patients.age_as_of(
-        "prostate_ca_date",
-        return_expectations={
-            "rate": "exponential_increase",
-            "int": {"distribution": "population_ages"},
-        },
-    ),
-    sex=patients.sex(
-        return_expectations={
-            "rate": "universal",
-            "category": {"ratios": {"M": 0.49, "F": 0.51}},
-        }
-    ),
     ethnicity=patients.categorised_as(
         {
             "Missing": "DEFAULT",
             "White": """ ethnicity_code=1 """,
             "Mixed": """ ethnicity_code=2 """,
-            "South Asian": """ ethnicity_code=3 """,
+            "South_Asian": """ ethnicity_code=3 """,
             "Black": """ ethnicity_code=4 """,
             "Other": """ ethnicity_code=5 """,
         },
@@ -65,7 +34,7 @@ study = StudyDefinition(
                     "Missing": 0.4,
                     "White": 0.2,
                     "Mixed": 0.1,
-                    "South Asian": 0.1,
+                    "South_Asian": 0.1,
                     "Black": 0.1,
                     "Other": 0.1,
                 }
@@ -77,10 +46,73 @@ study = StudyDefinition(
             find_last_match_in_period=True,
             on_or_before="index_date",
             return_expectations={
-            "category": {"ratios": {"1": 0.4, "2": 0.4, "3": 0.2, "4":0.2,"5": 0.2}},
-            "incidence": 0.75,
+            "category": {"ratios": {"1": 0.1, "2": 0.1, "3": 0.2, "4": 0.2,"5": 0.2, "6": 0.2}},
+            "incidence": 1.0,
             },
         ),
+    ),
+    died=patients.died_from_any_cause(
+        on_or_before="index_date",
+        returning="date_of_death",
+        date_format="YYYY-MM-DD",
+        return_expectations={
+            "date": {"earliest" : "2020-02-01"},
+            "rate": "exponential_increase"
+        },
+    ),
+    has_died=patients.died_from_any_cause(
+        on_or_before="index_date",
+        returning='binary_flag',
+        return_expectations={
+            "incidence": 0.4
+        },
+    ),
+    prostate_ca=patients.with_these_clinical_events(
+        prostate_cancer_codes,
+        on_or_before="index_date",
+        find_first_match_in_period=True,
+        include_date_of_match=True,
+        include_month=True,
+        include_day=True,
+        returning="binary_flag",
+        return_expectations={
+            "date": {"earliest": "2000-01-01", "latest": "today"},
+            "incidence": 0.8
+        }
+    ),
+    age_pa_ca=patients.age_as_of(
+        "prostate_ca_date",
+        return_expectations={
+            "rate": "exponential_increase",
+            "int": {"distribution": "population_ages"},
+        },
+    ),
+    age_group=patients.categorised_as(
+        {
+            "Missing": "DEFAULT",
+            "<65": """ age_pa_ca < 65""",
+            "65-74": """ age_pa_ca >= 65 AND age_pa_ca < 75""",
+            "75-84": """ age_pa_ca >= 75 AND age_pa_ca < 85""",
+            "85+": """ age_pa_ca >= 85""",
+        },
+        return_expectations={
+            "rate": "universal",
+            "category": {
+                "ratios": {
+                    "Missing": 0.2,
+                    "<65": 0.2,
+                    "65-74": 0.2,
+                    "75-84": 0.2,
+                    "85+": 0.2,
+                }
+            },
+        },
+    ),
+    sex=patients.sex(
+        return_expectations={
+            "rate": "universal",
+            "category": {"ratios": {"M": 0.99, "F": 0.01}},
+        }
     ),
     region=patients.registered_practice_as_of(
         "index_date",
@@ -138,8 +170,7 @@ study = StudyDefinition(
             },
         },
     ),
-
-    ADTinjs=patients.with_these_medications(
+    ADTinj=patients.with_these_medications(
         ADTinj,
         on_or_before="index_date",
         returning="binary_flag",
@@ -151,11 +182,70 @@ study = StudyDefinition(
         returning="binary_flag",
         return_expectations={"incidence": 0.50},
     ),
-    hcd=patients.with_high_cost_drugs(
-        drug_name_matches=["enzalutamide","abiraterone","darolutamide","apalutamide"],
+    ADTsecond_gener=patients.with_these_medications(
+        ADTsecond_gener,
+        on_or_before="index_date",
+        returning="binary_flag",
+        return_expectations={"incidence": 0.50},
+    ),
+    HCD=patients.with_high_cost_drugs(
+        drug_name_matches=[
+            "enzalutamide",
+            "abiraterone",
+            "darolutamide",
+            "apalutamide"
+        ],
         on_or_before="index_date",
         find_first_match_in_period=True,
         returning="binary_flag",
         return_expectations={"incidence": 0.15,},
-    )
+    ),
+    HCDexpanded=patients.with_high_cost_drugs(
+        drug_name_matches=[
+            "enzalutamide", "enzalutamide 40mg capsules",
+            "enzalutamide 40mg tablets", "xtandi 40mg tablets Astellas Pharma Ltd",
+            "xtandi", "xtandi 40mg capsules", "xtandi 40mg tablets",
+            "abiraterone", "abiraterone 250mg tablets",
+            "abiraterone 500mg tablets", "abiraterone 1g tablets",
+            "zytiga", "zytiga 250mg tablets", "zytiga 500mg tablets",
+            "abiraterone acetate", "abiraterone acetate 500mg",
+            "abiraterone acetate 500mg tablets",
+            "zytiga 500mg tablets (Janssen-Cilag Ltd)",
+            "abiraterone 250mg tablets Tillomed Laboratories Ltd",
+            "abiraterone 500mg tablets Accord Healthcare Ltd",
+            "abiraterone 500mg tablets Alliance Healthcare (Distribution) Ltd",
+            "abiraterone 500mg tablets Aristo Pharma Ltd",
+            "abiraterone 500mg tablets Celix Pharma Ltd",
+            "abiraterone 500mg tablets Dr Reddy's Laboratories (UK) Ltd",
+            "abiraterone 500mg tablets Genus Pharmaceuticals Ltd",
+            "abiraterone 500mg tablets Sandoz Ltd",
+            "abiraterone 500mg tablets Teva UK Ltd",
+            "abiraterone 500mg tablets Tillomed Laboratories Ltd",
+            "abiraterone 500mg tablets Torrent Pharma (UK) Ltd",
+            "abiraterone 500mg tablets Viatris UK Healthcare Ltd",
+            "abiraterone 500mg tablets Zentiva Pharma UK Ltd",
+            "zytiga 500mg tablets Janssen-Cilag Ltd",
+            "abiraterone 1g tablets Sandoz Ltd",
+            "abiraterone 1g tablets Viatris UK Healthcare Ltd",
+            "darolutamide", "nubeqa", "darolutamide 300mg", "nubeqa 300mg",
+            "apalutamide", "apalutamide 60mg tablets",
+            "erleada", "erleada 60mg tablets",
+            "Enzalutamide", "Enzalutamide 40mg capsules",
+            "Enzalutamide 40mg tablets", "Xtandi 40mg tablets Astellas Pharma Ltd",
+            "Xtandi", "Xtandi 40mg capsules", "Xtandi 40mg tablets",
+            "Abiraterone", "Abiraterone 250mg tablets",
+            "Abiraterone 500mg tablets", "Abiraterone 1g tablets",
+            "Zytiga", "Zytiga 250mg tablets", "Zytiga 500mg tablets",
+            "Abiraterone acetate", "Abiraterone acetate 500mg",
+            "Abiraterone acetate 500mg tablets",
+            "Zytiga 500mg tablets (Janssen-Cilag Ltd)",
+            "Darolutamide", "Nubeqa", "Darolutamide 300mg", "Nubeqa 300mg",
+            "Apalutamide", "Apalutamide 60mg tablets",
+            "Erleada", "Erleada 60mg tablets",
+        ],
+        on_or_before="index_date",
+        find_first_match_in_period=True,
+        returning="binary_flag",
+        return_expectations={"incidence": 0.15},
+    ),
 )

@@ -49,6 +49,12 @@ prostate_cancer_codes = codelist_from_csv(
     system="snomed",
     column="code",
 )
+ADTsecond_gener = codelist_from_csv(
+    "codelists/user-agleman-second-generation-antiandrogens3-dmd.csv",
+    system="snomed",
+    column="dmd_id",
+)
+
 # high cost drugs from the hospital - this is not avaiable pass 3 2020 - not usable 
 # Abiraterone
 # abiraterone = codelist(
