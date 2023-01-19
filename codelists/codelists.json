@@ -41,6 +41,12 @@
       "url": "https://codelists.opensafely.org/codelist/user/agleman/adt-inj-6monthly-dmd/210c8eee/",
       "downloaded_at": "2023-01-17 16:00:35.275293Z",
       "sha": "829ff178097024c931f04d072271fa431ad32b1c"
+    },
+    "user-agleman-second-generation-antiandrogens3-dmd.csv": {
+      "id": "user/agleman/second-generation-antiandrogens3-dmd/3ebace80",
+      "url": "https://codelists.opensafely.org/codelist/user/agleman/second-generation-antiandrogens3-dmd/3ebace80/",
+      "downloaded_at": "2023-01-18 20:37:33.397945Z",
+      "sha": "e89bda59f07d23b5501afd79a73e787e2f6a997e"
     }
   }
 }

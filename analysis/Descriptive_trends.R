@@ -121,14 +121,16 @@ for (i in c("measure_ADToralbyRegion_rate.csv",
 Input <- read_csv(here::here("output", "input.csv"),col_types = cols(patient_id = col_integer()))
 
 Table1 <- as.data.frame(NA)
-xx <- c("total number","average age","sd age","hcd")
+xx <- c("total_number","average_age","sd_age","ADTsecond_gener","HCD", "HCDexpanded")
 Table1[xx] <- NA
-Table1[1,"total number"] <- plyr::round_any(length(which(Input$prostate_ca==1)), 5, f = round)
+Table1[1,"total_number"] <- plyr::round_any(length(which(Input$prostate_ca==1)), 5, f = round)
 Input2 <- Input[Input$prostate_ca==1,]
-Table1[1,"hcd"] <- plyr::round_any(length(which(Input2$hcd==1)), 5, f = round)
+Table1[1,"HCD"] <- plyr::round_any(length(which(Input2$HCD==1)), 5, f = round)
+Table1[1,"HCDexpanded"] <- plyr::round_any(length(which(Input2$HCDexpanded==1)), 5, f = round)
+Table1[1,"ADTsecond_gener"] <- plyr::round_any(length(which(Input2$ADTsecond_gener==1)), 5, f = round)
 
-Table1[1,"average age"] <- mean(Input2$age)
-Table1[1,"sd age"] <- sd(Input2$age)
+Table1[1,"average_age"] <- mean(Input2$age)
+Table1[1,"sd_age"] <- sd(Input2$age)
 Table1[names(table(Input2$ethnicity))] <- NA
 Table1[1,names(table(Input2$ethnicity))] <- plyr::round_any(as.numeric(table(Input2$ethnicity)), 5, f = round)
 Table1[names(table(Input2$sex))] <- NA
