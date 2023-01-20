@@ -175,6 +175,12 @@ study = StudyDefinition(
         returning="binary_flag",
         return_expectations={"incidence": 0.50},
     ),
+    ADTsecond_gener=patients.with_these_medications(
+        ADTsecond_gener,
+        on_or_before="index_date",
+        returning="binary_flag",
+        return_expectations={"incidence": 0.50},
+    ),
 )
 
 measures = [
@@ -267,6 +273,13 @@ measures = [
         numerator="ADToral",
         denominator="population",
         group_by="age_group",
+        small_number_suppression=True,
+    ),
+    Measure(
+        id="ADTsecongen_rate",
+        numerator="ADTsecond_gener",
+        denominator="population",
+        group_by="population",
         small_number_suppression=True,
     ),
 ]

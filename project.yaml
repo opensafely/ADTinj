@@ -64,6 +64,7 @@ actions:
         measure_csv11: output/measures/measure_ADToralbyIMD*_rate.csv
         measure_csv12: output/measures/measure_ADToralbyEthnicity*_rate.csv
         measure_csv13: output/measures/measure_ADToralbyAge*_rate.csv
+        measure_csv14: output/measures/measure_ADTsecongen*_rate.csv
 
   describe_trends:
     run: r:latest analysis/Descriptive_trends.R
@@ -87,6 +88,7 @@ actions:
         fig11: output/ADToralbyIM.png
         fig12: output/ADToralbyEt.png
         fig13: output/ADToralbyAg.png
+        fig14: output/ADTsecongen.png        
         csv1: output/ADT_inj_rat_rounded.csv
         csv2: output/ADT_inj1_ra_rounded.csv
         csv3: output/ADT_inj3_ra_rounded.csv
@@ -100,4 +102,5 @@ actions:
         csv11: output/ADToralbyIM_rounded.csv
         csv12: output/ADToralbyEt_rounded.csv
         csv13: output/ADToralbyAg_rounded.csv
-        csv14: output/Table1.csv
+        csv14: output/ADTsecongen_rounded.csv
+        csv15: output/Table1.csv
