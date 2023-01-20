@@ -16,7 +16,8 @@ for (i in c("measure_ADT_inj_rate.csv",
             "measure_ADT_inj1_rate.csv", 
             "measure_ADT_inj3_rate.csv", 
             "measure_ADT_inj6_rate.csv", 
-            "measure_ADT_oral_rate.csv")){
+            "measure_ADT_oral_rate.csv",
+            "measure_ADTsecongen_rate.csv")){
 
   Rates <- read_csv(here::here("output", "measures", i))
   Rates_rounded <- as.data.frame(Rates)
@@ -49,7 +50,6 @@ for (i in c("measure_ADT_inj_rate.csv",
          x = "", y = "Rate per 100,000")+
     theme_bw()+
     theme(axis.text.x = element_text(angle = 45, hjust = 1))
-  
   p <- p + geom_vline(xintercept=as.Date(start, format="%Y-%m-%d"), size=0.3, colour="red")
   p <- p +  geom_text(aes(x=as.Date(start, format="%Y-%m-%d")+5, y=min(value2)+(sd(value2)*2)), 
                       color = "red",label="Start of\nrestrictions", angle = 90, size = 3)
@@ -95,10 +95,12 @@ for (i in c("measure_ADToralbyRegion_rate.csv",
     #geom_point(color = "region")+
     scale_x_date(date_breaks = "2 month",
                  date_labels = "%Y-%m")+
-    labs(title = paste0(substr(i, 9, 17),"_by_",colnames(Rates_rounded)[1]), 
+    labs(title = paste0(substr(i, 9, 14)," by ",colnames(Rates_rounded)[1]), 
          x = "", y = "Rate per 100,000")+
     theme_bw()+
-    theme(axis.text.x = element_text(angle = 45, hjust = 1), legend.position="bottom")
+    theme(axis.text.x = element_text(angle = 45, hjust = 1), 
+          legend.position="bottom",
+          legend.title=element_blank())
   
   p <- p + geom_vline(xintercept=as.Date(start, format="%Y-%m-%d"), size=0.3, colour="red")
   p <- p +  geom_text(aes(x=as.Date(start, format="%Y-%m-%d")+5, y=min(value2)+(sd(value2)*2)), 
@@ -129,8 +131,10 @@ Table1[1,"HCD"] <- plyr::round_any(length(which(Input2$HCD==1)), 5, f = round)
 Table1[1,"HCDexpanded"] <- plyr::round_any(length(which(Input2$HCDexpanded==1)), 5, f = round)
 Table1[1,"ADTsecond_gener"] <- plyr::round_any(length(which(Input2$ADTsecond_gener==1)), 5, f = round)
 
-Table1[1,"average_age"] <- mean(Input2$age)
-Table1[1,"sd_age"] <- sd(Input2$age)
+Table1[1,"average_age"] <- mean(Input2$age_pa_ca)
+Table1[1,"sd_age"] <- sd(Input2$age_pa_ca)
+Table1[names(table(Input2$age_group))] <- NA
+Table1[1,names(table(Input2$age_group))] <- plyr::round_any(as.numeric(table(Input2$age_group)), 5, f = round)
 Table1[names(table(Input2$ethnicity))] <- NA
 Table1[1,names(table(Input2$ethnicity))] <- plyr::round_any(as.numeric(table(Input2$ethnicity)), 5, f = round)
 Table1[names(table(Input2$sex))] <- NA
