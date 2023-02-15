@@ -3,16 +3,10 @@ from cohortextractor import (
     codelist,
 )
 ethnicity_codes = codelist_from_csv(
-    "codelists/opensafely-ethnicity.csv",
-    system="ctv3",
-    column="Code",
+    "codelists/opensafely-ethnicity-snomed-0removed.csv",
+    system="snomed",
+    column="snomedcode",
     category_column="Grouping_6",
-)
-ethnicity_codes_16 = codelist_from_csv(
-    "codelists/opensafely-ethnicity.csv",
-    system="ctv3",
-    column="Code",
-    category_column="Grouping_16",
 )
 ADTinj = codelist_from_csv(
     "codelists/user-agleman-adt-injectable-dmd.csv",
