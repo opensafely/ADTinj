@@ -1,4 +1,4 @@
-opensafely/ethnicity/2020-04-27
+opensafely/ethnicity-snomed-0removed/2e641f61
 user/agleman/adt-injectable-dmd/20f9318d
 user/agleman/prostate_cancer_snomed/051ac36b
 user/agleman/oral-adt-prostate-ca-dmd/1e2a36a0

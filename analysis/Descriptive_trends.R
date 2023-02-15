@@ -63,11 +63,9 @@ for (i in c("measure_ADT_inj_rate.csv",
   )
 }
 
-for (i in c("measure_ADToralbyRegion_rate.csv", 
-            "measure_ADToralbyIMD_rate.csv", 
+for (i in c("measure_ADToralbyIMD_rate.csv", 
             "measure_ADToralbyEthnicity_rate.csv", 
-            "measure_ADToralbyAge_rate.csv", 
-            "measure_ADTinjbyRegion_rate.csv", 
+            "measure_ADToralbyAge_rate.csv",
             "measure_ADTinjbyIMD_rate.csv", 
             "measure_ADTinjbyEthnicity_rate.csv", 
             "measure_ADTinjbyAge_rate.csv")){
@@ -92,7 +90,6 @@ for (i in c("measure_ADToralbyRegion_rate.csv",
   
   p <- ggplot(data = Rates_rounded,aes(date, value2, color = Rates_rounded[,1], lty = Rates_rounded[,1])) +
     geom_line()+
-    #geom_point(color = "region")+
     scale_x_date(date_breaks = "2 month",
                  date_labels = "%Y-%m")+
     labs(title = paste0(substr(i, 9, 14)," by ",colnames(Rates_rounded)[1]), 

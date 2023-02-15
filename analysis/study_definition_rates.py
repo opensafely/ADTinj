@@ -102,15 +102,15 @@ study = StudyDefinition(
     ),
     imd_cat=patients.categorised_as(
         {
-            "Missing": "DEFAULT",
-            "IMD_1": """index_of_multiple_deprivation >=1 AND index_of_multiple_deprivation < 32844*1/5""",
-            "IMD_2": """index_of_multiple_deprivation >= 32844*1/5 AND index_of_multiple_deprivation < 32844*2/5""",
-            "IMD_3": """index_of_multiple_deprivation >= 32844*2/5 AND index_of_multiple_deprivation < 32844*3/5""",
-            "IMD_4": """index_of_multiple_deprivation >= 32844*3/5 AND index_of_multiple_deprivation < 32844*4/5""",
-            "IMD_5": """index_of_multiple_deprivation >= 32844*4/5 AND index_of_multiple_deprivation < 32844""",
+            "Unknown": "DEFAULT",
+            "1 (most deprived)": "imd >= 0 AND imd < 32844*1/5",
+            "2": "imd >= 32844*1/5 AND imd < 32844*2/5",
+            "3": "imd >= 32844*2/5 AND imd < 32844*3/5",
+            "4": "imd >= 32844*3/5 AND imd < 32844*4/5",
+            "5 (least deprived)": "imd >= 32844*4/5 AND imd <= 32844",
         },
-        index_of_multiple_deprivation=patients.address_as_of(
-            "index_date",
+        imd=patients.address_as_of(
+            "first_day_of_month(index_date)",
             returning="index_of_multiple_deprivation",
             round_to_nearest=100,
         ),
@@ -118,12 +118,12 @@ study = StudyDefinition(
             "rate": "universal",
             "category": {
                 "ratios": {
-                    "Missing": 0.05,
-                    "IMD_1": 0.19,
-                    "IMD_2": 0.19,
-                    "IMD_3": 0.19,
-                    "IMD_4": 0.19,
-                    "IMD_5": 0.19,
+                    "Unknown": 0.05,
+                    "1 (most deprived)": 0.19,
+                    "2": 0.19,
+                    "3": 0.19,
+                    "4": 0.19,
+                    "5 (least deprived)": 0.19,
                 }
             },
         },
@@ -213,13 +213,6 @@ measures = [
         small_number_suppression=True,
     ),
     Measure(
-        id="ADTinjbyRegion_rate",
-        numerator="ADTinj",
-        denominator="population",
-        group_by="region",
-        small_number_suppression=True,
-    ),
-    Measure(
         id="ADTinjbyIMD_rate",
         numerator="ADTinj",
         denominator="population",
@@ -245,13 +238,6 @@ measures = [
         numerator="ADToral",
         denominator="population",
         group_by="population",
-        small_number_suppression=True,
-    ),
-    Measure(
-        id="ADToralbyRegion_rate",
-        numerator="ADToral",
-        denominator="population",
-        group_by="region",
         small_number_suppression=True,
     ),
     Measure(

@@ -23,20 +23,20 @@ study = StudyDefinition(
             "Missing": "DEFAULT",
             "White": """ ethnicity_code=1 """,
             "Mixed": """ ethnicity_code=2 """,
-            "South_Asian": """ ethnicity_code=3 """,
+            "Asian": """ ethnicity_code=3 """,
             "Black": """ ethnicity_code=4 """,
-            "Other": """ ethnicity_code=5 """,
+            "Chinese": """ ethnicity_code=5 """,
         },
         return_expectations={
             "rate": "universal",
             "category": {
                 "ratios": {
                     "Missing": 0.4,
-                    "White": 0.2,
+                    "White": 0.1,
                     "Mixed": 0.1,
-                    "South_Asian": 0.1,
+                    "Asian": 0.1,
                     "Black": 0.1,
-                    "Other": 0.1,
+                    "Chinese": 0.2,
                 }
             },
         },
@@ -44,10 +44,10 @@ study = StudyDefinition(
             ethnicity_codes,
             returning="category",
             find_last_match_in_period=True,
-            on_or_before="index_date",
+            include_date_of_match=False,
             return_expectations={
-            "category": {"ratios": {"1": 0.1, "2": 0.1, "3": 0.2, "4": 0.2,"5": 0.2, "6": 0.2}},
-            "incidence": 1.0,
+            "category": {"ratios": {"1": 0.2, "2": 0.2, "3": 0.2, "4": 0.2, "5": 0.2}},
+            "incidence": 0.75,
             },
         ),
     ),
@@ -114,45 +114,17 @@ study = StudyDefinition(
             "category": {"ratios": {"M": 0.99, "F": 0.01}},
         }
     ),
-    region=patients.registered_practice_as_of(
-        "index_date",
-        returning="nuts1_region_name",
-        return_expectations={
-            "rate": "universal",
-            "category": {
-                "ratios": {
-                    "North East": 0.1,
-                    "North West": 0.1,
-                    "Yorkshire and the Humber": 0.2,
-                    "East Midlands": 0.1,
-                    "West Midlands": 0.1,
-                    "East of England": 0.1,
-                    "London": 0.1,
-                    "South East": 0.2,
-                },
-            },
-        },
-    ),
-    imd_Q=patients.address_as_of(
-        "index_date",
-        returning="index_of_multiple_deprivation",
-        round_to_nearest=100,
-        return_expectations={
-            "rate": "universal",
-            "category": {"ratios": {"100": 0.1, "200": 0.2, "300": 0.7}},
-        },
-    ),
     imd_cat=patients.categorised_as(
         {
-            "Missing": "DEFAULT",
-            "1": """index_of_multiple_deprivation >=1 AND index_of_multiple_deprivation < 32844*1/5""",
-            "2": """index_of_multiple_deprivation >= 32844*1/5 AND index_of_multiple_deprivation < 32844*2/5""",
-            "3": """index_of_multiple_deprivation >= 32844*2/5 AND index_of_multiple_deprivation < 32844*3/5""",
-            "4": """index_of_multiple_deprivation >= 32844*3/5 AND index_of_multiple_deprivation < 32844*4/5""",
-            "5": """index_of_multiple_deprivation >= 32844*4/5 AND index_of_multiple_deprivation < 32844""",
+            "Unknown": "DEFAULT",
+            "1 (most deprived)": "imd >= 0 AND imd < 32844*1/5",
+            "2": "imd >= 32844*1/5 AND imd < 32844*2/5",
+            "3": "imd >= 32844*2/5 AND imd < 32844*3/5",
+            "4": "imd >= 32844*3/5 AND imd < 32844*4/5",
+            "5 (least deprived)": "imd >= 32844*4/5 AND imd <= 32844",
         },
-        index_of_multiple_deprivation=patients.address_as_of(
-            "index_date",
+        imd=patients.address_as_of(
+            "2015-01-01",
             returning="index_of_multiple_deprivation",
             round_to_nearest=100,
         ),
@@ -160,12 +132,12 @@ study = StudyDefinition(
             "rate": "universal",
             "category": {
                 "ratios": {
-                    "Missing": 0.05,
-                    "1": 0.19,
+                    "Unknown": 0.05,
+                    "1 (most deprived)": 0.19,
                     "2": 0.19,
                     "3": 0.19,
                     "4": 0.19,
-                    "5": 0.19,
+                    "5 (least deprived)": 0.19,
                 }
             },
         },
