@@ -2,51 +2,51 @@
   "files": {
     "opensafely-ethnicity-snomed-0removed.csv": {
       "id": "opensafely/ethnicity-snomed-0removed/2e641f61",
-      "url": "https://codelists.opensafely.org/codelist/opensafely/ethnicity-snomed-0removed/2e641f61/",
+      "url": "https://www.opencodelists.org/codelist/opensafely/ethnicity-snomed-0removed/2e641f61/",
       "downloaded_at": "2023-02-15 19:48:11.738515Z",
       "sha": "8b849b5b785d80306e488d0109640c8c1d2da01b"
     },
     "user-agleman-adt-injectable-dmd.csv": {
       "id": "user/agleman/adt-injectable-dmd/20f9318d",
-      "url": "https://codelists.opensafely.org/codelist/user/agleman/adt-injectable-dmd/20f9318d/",
-      "downloaded_at": "2022-05-04 12:39:38.338384Z",
-      "sha": "54d07f72c2e7c61a565a79a869ad86a8386a9814"
+      "url": "https://www.opencodelists.org/codelist/user/agleman/adt-injectable-dmd/20f9318d/",
+      "downloaded_at": "2024-02-01 16:39:41.649947Z",
+      "sha": "08129b77f6069f73eb1dec02dca70e9c9d295766"
     },
     "user-agleman-prostate_cancer_snomed.csv": {
       "id": "user/agleman/prostate_cancer_snomed/051ac36b",
-      "url": "https://codelists.opensafely.org/codelist/user/agleman/prostate_cancer_snomed/051ac36b/",
+      "url": "https://www.opencodelists.org/codelist/user/agleman/prostate_cancer_snomed/051ac36b/",
       "downloaded_at": "2022-08-08 13:14:59.472192Z",
       "sha": "e34c03a84feae9b9748a4b88626cbfaa6374cb18"
     },
     "user-agleman-oral-adt-prostate-ca-dmd.csv": {
       "id": "user/agleman/oral-adt-prostate-ca-dmd/1e2a36a0",
-      "url": "https://codelists.opensafely.org/codelist/user/agleman/oral-adt-prostate-ca-dmd/1e2a36a0/",
-      "downloaded_at": "2022-08-08 13:14:59.723303Z",
-      "sha": "f7f131f6f457db3aff5a6b84b0773a5975c54df2"
+      "url": "https://www.opencodelists.org/codelist/user/agleman/oral-adt-prostate-ca-dmd/1e2a36a0/",
+      "downloaded_at": "2024-02-01 16:39:42.018906Z",
+      "sha": "7fa808b342525d98c2d5d6ccc699c0b161525cc8"
     },
     "user-agleman-adt-inj-1monthly-dmd.csv": {
       "id": "user/agleman/adt-inj-1monthly-dmd/3ccec219",
-      "url": "https://codelists.opensafely.org/codelist/user/agleman/adt-inj-1monthly-dmd/3ccec219/",
-      "downloaded_at": "2023-01-17 16:00:34.760531Z",
-      "sha": "8a2a346f8f532fcf0caad89c632de18d67ba1213"
+      "url": "https://www.opencodelists.org/codelist/user/agleman/adt-inj-1monthly-dmd/3ccec219/",
+      "downloaded_at": "2024-02-01 16:39:42.187120Z",
+      "sha": "a1806cc6ea8df0c980f57fbf86ad862a927ed212"
     },
     "user-agleman-adt-inj-3monthly-dmd.csv": {
       "id": "user/agleman/adt-inj-3monthly-dmd/6eeda883",
-      "url": "https://codelists.opensafely.org/codelist/user/agleman/adt-inj-3monthly-dmd/6eeda883/",
-      "downloaded_at": "2023-01-17 16:00:35.029783Z",
-      "sha": "c9abf9081130b276ba862cb00e7b30bdddb33f68"
+      "url": "https://www.opencodelists.org/codelist/user/agleman/adt-inj-3monthly-dmd/6eeda883/",
+      "downloaded_at": "2024-02-01 16:39:42.350851Z",
+      "sha": "be76b4da2060c404098ee06da7fa8fe108c88268"
     },
     "user-agleman-adt-inj-6monthly-dmd.csv": {
       "id": "user/agleman/adt-inj-6monthly-dmd/210c8eee",
-      "url": "https://codelists.opensafely.org/codelist/user/agleman/adt-inj-6monthly-dmd/210c8eee/",
-      "downloaded_at": "2023-01-17 16:00:35.275293Z",
-      "sha": "829ff178097024c931f04d072271fa431ad32b1c"
+      "url": "https://www.opencodelists.org/codelist/user/agleman/adt-inj-6monthly-dmd/210c8eee/",
+      "downloaded_at": "2024-02-01 16:39:42.543404Z",
+      "sha": "a326df3f60cec6cb36c3e9011c51e9dd3258ff1f"
     },
     "user-agleman-second-generation-antiandrogens3-dmd.csv": {
       "id": "user/agleman/second-generation-antiandrogens3-dmd/3ebace80",
-      "url": "https://codelists.opensafely.org/codelist/user/agleman/second-generation-antiandrogens3-dmd/3ebace80/",
-      "downloaded_at": "2023-01-18 20:37:33.397945Z",
-      "sha": "e89bda59f07d23b5501afd79a73e787e2f6a997e"
+      "url": "https://www.opencodelists.org/codelist/user/agleman/second-generation-antiandrogens3-dmd/3ebace80/",
+      "downloaded_at": "2024-02-01 16:39:42.718239Z",
+      "sha": "7491e3b49e3464385ee54841abbca03e452c2554"
     }
   }
 }
