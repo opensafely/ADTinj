@@ -10,7 +10,7 @@ library(here)
 library(MASS)
 library(plyr)
 
-start <- "2020-03-01"
+start <- "2015-01-01"
 
 for (i in c("measure_ADT_inj_rate.csv", 
             "measure_ADT_inj1_rate.csv", 
@@ -118,12 +118,16 @@ for (i in c("measure_ADToralbyIMD_rate.csv",
 
 #Input <- read_csv(here::here("output", "input.csv"),show_col_types = FALSE)
 Input <- read_csv(here::here("output", "input.csv"),col_types = cols(patient_id = col_integer()))
-
+Input2 <- Input[Input$prostate_ca==1,]
+#which(Input2$died<"2015-01-01")
+Input2 <- Input2[-(which(Input2$died<"2015-01-01")),]
+rm(Input)
 Table1 <- as.data.frame(NA)
 xx <- c("total_number","average_age","sd_age","ADTsecond_gener","HCD", "HCDexpanded")
 Table1[xx] <- NA
-Table1[1,"total_number"] <- plyr::round_any(length(which(Input$prostate_ca==1)), 5, f = round)
-Input2 <- Input[Input$prostate_ca==1,]
+
+Table1[1,"total_number"] <- plyr::round_any(length(which(Input2$prostate_ca==1)), 5, f = round)
+
 Table1[1,"HCD"] <- plyr::round_any(length(which(Input2$HCD==1)), 5, f = round)
 Table1[1,"HCDexpanded"] <- plyr::round_any(length(which(Input2$HCDexpanded==1)), 5, f = round)
 Table1[1,"ADTsecond_gener"] <- plyr::round_any(length(which(Input2$ADTsecond_gener==1)), 5, f = round)
