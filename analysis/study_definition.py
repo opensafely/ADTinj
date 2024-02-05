@@ -7,7 +7,7 @@ from cohortextractor import (
 from codelists import *
 
 start_date = "2015-01-01"
-end_date = "2023-06-01"
+end_date = "2023-12-01"
 
 study = StudyDefinition(
     default_expectations={
@@ -15,7 +15,7 @@ study = StudyDefinition(
         "rate": "uniform",
         "incidence": 0.5,
     },
-    index_date="2023-06-01",
+    index_date="2023-12-01",
     population=patients.all(),
 
     ethnicity=patients.categorised_as(
@@ -56,7 +56,7 @@ study = StudyDefinition(
         returning="date_of_death",
         date_format="YYYY-MM-DD",
         return_expectations={
-            "date": {"earliest" : "2020-02-01"},
+            "date": {"earliest" : "2010-02-01"},
             "rate": "exponential_increase"
         },
     ),
@@ -124,7 +124,7 @@ study = StudyDefinition(
             "5 (least deprived)": "imd >= 32844*4/5 AND imd <= 32844",
         },
         imd=patients.address_as_of(
-            "2015-01-01",
+            "2023-12-01",
             returning="index_of_multiple_deprivation",
             round_to_nearest=100,
         ),
