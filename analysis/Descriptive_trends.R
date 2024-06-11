@@ -134,7 +134,7 @@ xx <- c("total_numberOverall","total_number","average_age","sd_age","died_before
 Table1[xx] <- NA
 Table1[1,"total_numberOverall"] <- plyr::round_any(length(which(Input$prostate_ca==1)), 5, f = round)
 Table1[1,"total_number"] <- plyr::round_any(length(which(Input2$prostate_ca==1)), 5, f = round)
-
+### calcucaltes number of poeple 
 Table1[1,"ADTinj"] <- plyr::round_any(length(which(Input2$ADTinj==1)), 5, f = round)
 Table1[1,"ADTinj1"] <- plyr::round_any(length(which(Input2$ADTinj1==1)), 5, f = round)
 Table1[1,"ADTinj3"] <- plyr::round_any(length(which(Input2$ADTinj3==1)), 5, f = round)
