@@ -7,7 +7,7 @@ from cohortextractor import (
 from codelists import *
 
 start_date = "2015-01-01"
-end_date = "2022-12-01"
+end_date = "2024-05-01"
 
 study = StudyDefinition(
     default_expectations={
@@ -165,22 +165,6 @@ study = StudyDefinition(
         returning="binary_flag",
         return_expectations={"incidence": 0.50},
     ),
-######### oral treatment
-    ADToral=patients.with_these_medications(
-        ADToral,
-        between=[
-            "first_day_of_month(index_date)",
-            "last_day_of_month(index_date)",
-            ],
-        returning="binary_flag",
-        return_expectations={"incidence": 0.50},
-    ),
-    ADTsecond_gener=patients.with_these_medications(
-        ADTsecond_gener,
-        on_or_before="index_date",
-        returning="binary_flag",
-        return_expectations={"incidence": 0.50},
-    ),
 )
 
 measures = [
@@ -233,39 +217,67 @@ measures = [
         group_by="age_group",
         small_number_suppression=True,
     ),
-    Measure(
-        id="ADT_oral_rate",
-        numerator="ADToral",
-        denominator="population",
-        group_by="population",
-        small_number_suppression=True,
-    ),
-    Measure(
-        id="ADToralbyIMD_rate",
-        numerator="ADToral",
+        Measure(
+        id="ADTinj1byIMD_rate",
+        numerator="ADTinj1",
         denominator="population",
         group_by="imd_cat",
         small_number_suppression=True,
     ),
     Measure(
-        id="ADToralbyEthnicity_rate",
-        numerator="ADToral",
+        id="ADTinj1byEthnicity_rate",
+        numerator="ADTinj1",
         denominator="population",
         group_by="ethnicity",
         small_number_suppression=True,
     ),
     Measure(
-        id="ADToralbyAge_rate",
-        numerator="ADToral",
+        id="ADTinj1byAge_rate",
+        numerator="ADTinj1",
         denominator="population",
         group_by="age_group",
         small_number_suppression=True,
     ),
-    Measure(
-        id="ADTsecongen_rate",
-        numerator="ADTsecond_gener",
+        Measure(
+        id="ADTinj3byIMD_rate",
+        numerator="ADTinj3",
         denominator="population",
-        group_by="population",
+        group_by="imd_cat",
+        small_number_suppression=True,
+    ),
+    Measure(
+        id="ADTinj3byEthnicity_rate",
+        numerator="ADTinj3",
+        denominator="population",
+        group_by="ethnicity",
+        small_number_suppression=True,
+    ),
+    Measure(
+        id="ADTinj3byAge_rate",
+        numerator="ADTinj3",
+        denominator="population",
+        group_by="age_group",
+        small_number_suppression=True,
+    ),
+        Measure(
+        id="ADTinj6byIMD_rate",
+        numerator="ADTinj6",
+        denominator="population",
+        group_by="imd_cat",
+        small_number_suppression=True,
+    ),
+    Measure(
+        id="ADTinjby6Ethnicity_rate",
+        numerator="ADTinj6",
+        denominator="population",
+        group_by="ethnicity",
+        small_number_suppression=True,
+    ),
+    Measure(
+        id="ADTinj6byAge_rate",
+        numerator="ADTinj6",
+        denominator="population",
+        group_by="age_group",
         small_number_suppression=True,
     ),
 ]

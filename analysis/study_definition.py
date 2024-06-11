@@ -7,7 +7,7 @@ from cohortextractor import (
 from codelists import *
 
 start_date = "2015-01-01"
-end_date = "2023-12-01"
+end_date = "2024-05-01"
 
 study = StudyDefinition(
     default_expectations={
@@ -15,7 +15,7 @@ study = StudyDefinition(
         "rate": "uniform",
         "incidence": 0.5,
     },
-    index_date="2023-12-01",
+    index_date="2024-05-01",
     population=patients.all(),
 
     ethnicity=patients.categorised_as(
@@ -124,7 +124,7 @@ study = StudyDefinition(
             "5 (least deprived)": "imd >= 32844*4/5 AND imd <= 32844",
         },
         imd=patients.address_as_of(
-            "2023-12-01",
+            "2024-05-01",
             returning="index_of_multiple_deprivation",
             round_to_nearest=100,
         ),
@@ -148,76 +148,22 @@ study = StudyDefinition(
         returning="binary_flag",
         return_expectations={"incidence": 0.50},
     ),
-    ADToral=patients.with_these_medications(
-        ADToral,
+    ADTinj1=patients.with_these_medications(
+        ADTinj1,
         on_or_before="index_date",
         returning="binary_flag",
         return_expectations={"incidence": 0.50},
     ),
-    ADTsecond_gener=patients.with_these_medications(
-        ADTsecond_gener,
+    ADTinj3=patients.with_these_medications(
+        ADTinj3,
         on_or_before="index_date",
         returning="binary_flag",
         return_expectations={"incidence": 0.50},
     ),
-    HCD=patients.with_high_cost_drugs(
-        drug_name_matches=[
-            "enzalutamide",
-            "abiraterone",
-            "darolutamide",
-            "apalutamide"
-        ],
+    ADTinj6=patients.with_these_medications(
+        ADTinj6,
         on_or_before="index_date",
-        find_first_match_in_period=True,
         returning="binary_flag",
-        return_expectations={"incidence": 0.15,},
-    ),
-    HCDexpanded=patients.with_high_cost_drugs(
-        drug_name_matches=[
-            "enzalutamide", "enzalutamide 40mg capsules",
-            "enzalutamide 40mg tablets", "xtandi 40mg tablets Astellas Pharma Ltd",
-            "xtandi", "xtandi 40mg capsules", "xtandi 40mg tablets",
-            "abiraterone", "abiraterone 250mg tablets",
-            "abiraterone 500mg tablets", "abiraterone 1g tablets",
-            "zytiga", "zytiga 250mg tablets", "zytiga 500mg tablets",
-            "abiraterone acetate", "abiraterone acetate 500mg",
-            "abiraterone acetate 500mg tablets",
-            "zytiga 500mg tablets (Janssen-Cilag Ltd)",
-            "abiraterone 250mg tablets Tillomed Laboratories Ltd",
-            "abiraterone 500mg tablets Accord Healthcare Ltd",
-            "abiraterone 500mg tablets Alliance Healthcare (Distribution) Ltd",
-            "abiraterone 500mg tablets Aristo Pharma Ltd",
-            "abiraterone 500mg tablets Celix Pharma Ltd",
-            "abiraterone 500mg tablets Dr Reddy's Laboratories (UK) Ltd",
-            "abiraterone 500mg tablets Genus Pharmaceuticals Ltd",
-            "abiraterone 500mg tablets Sandoz Ltd",
-            "abiraterone 500mg tablets Teva UK Ltd",
-            "abiraterone 500mg tablets Tillomed Laboratories Ltd",
-            "abiraterone 500mg tablets Torrent Pharma (UK) Ltd",
-            "abiraterone 500mg tablets Viatris UK Healthcare Ltd",
-            "abiraterone 500mg tablets Zentiva Pharma UK Ltd",
-            "zytiga 500mg tablets Janssen-Cilag Ltd",
-            "abiraterone 1g tablets Sandoz Ltd",
-            "abiraterone 1g tablets Viatris UK Healthcare Ltd",
-            "darolutamide", "nubeqa", "darolutamide 300mg", "nubeqa 300mg",
-            "apalutamide", "apalutamide 60mg tablets",
-            "erleada", "erleada 60mg tablets",
-            "Enzalutamide", "Enzalutamide 40mg capsules",
-            "Enzalutamide 40mg tablets", "Xtandi 40mg tablets Astellas Pharma Ltd",
-            "Xtandi", "Xtandi 40mg capsules", "Xtandi 40mg tablets",
-            "Abiraterone", "Abiraterone 250mg tablets",
-            "Abiraterone 500mg tablets", "Abiraterone 1g tablets",
-            "Zytiga", "Zytiga 250mg tablets", "Zytiga 500mg tablets",
-            "Abiraterone acetate", "Abiraterone acetate 500mg",
-            "Abiraterone acetate 500mg tablets",
-            "Zytiga 500mg tablets (Janssen-Cilag Ltd)",
-            "Darolutamide", "Nubeqa", "Darolutamide 300mg", "Nubeqa 300mg",
-            "Apalutamide", "Apalutamide 60mg tablets",
-            "Erleada", "Erleada 60mg tablets",
-        ],
-        on_or_before="index_date",
-        find_first_match_in_period=True,
-        returning="binary_flag",
-        return_expectations={"incidence": 0.15},
+        return_expectations={"incidence": 0.50},
     ),
 )
