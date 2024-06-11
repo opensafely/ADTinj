@@ -89,7 +89,7 @@ for (i in c("measure_ADTinjbyIMD_rate.csv",
   Rates_rounded$value <- Rates_rounded[,2]/Rates_rounded$population
   # calc rate per 100,000
   Rates_rounded$value2 <- Rates_rounded$value*100000
-  write.table(Rates_rounded, here::here("output",paste0(substr(i, 9, 19),"_rounded",".csv")),
+  write.table(Rates_rounded, here::here("output",paste0(substr(i, 9, 20),"_rounded",".csv")),
               sep = ",",row.names = FALSE)
   
   
@@ -113,7 +113,7 @@ for (i in c("measure_ADTinjbyIMD_rate.csv",
   
   ggsave(
     plot= p, dpi=800,width = 20,height = 10, units = "cm",
-    filename=paste0(substr(i, 9, 19),".png"), path=here::here("output"),
+    filename=paste0(substr(i, 9, 20),".png"), path=here::here("output"),
   )
 }
 

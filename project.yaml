@@ -81,9 +81,9 @@ actions:
         fig2: output/ADT_inj1_ra.png
         fig3: output/ADT_inj3_ra.png
         fig4: output/ADT_inj6_ra.png
-        fig5: output/ADTinjbyIMD.png
-        fig6: output/ADTinjbyEth.png
-        fig7: output/ADTinjbyAge.png
+        fig5: output/ADTinjbyIMD_.png
+        fig6: output/ADTinjbyEthn.png
+        fig7: output/ADTinjbyAge_.png
         fig8: output/ADTinj1byIMD.png
         fig9: output/ADTinj1byEth.png
         fig10: output/ADTinj1byAge.png
@@ -97,9 +97,9 @@ actions:
         csv2: output/ADT_inj1_ra_rounded.csv
         csv3: output/ADT_inj3_ra_rounded.csv
         csv4: output/ADT_inj6_ra_rounded.csv
-        csv5: output/ADTinjbyIMD_rounded.csv
-        csv6: output/ADTinjbyEth_rounded.csv
-        csv7: output/ADTinjbyAge_rounded.csv
+        csv5: output/ADTinjbyIMD__rounded.csv
+        csv6: output/ADTinjbyEthn_rounded.csv
+        csv7: output/ADTinjbyAge__rounded.csv
         csv8: output/ADTinj1byIMD_rounded.csv
         csv9: output/ADTinj1byEth_rounded.csv
         csv10: output/ADTinj1byAge_rounded.csv
