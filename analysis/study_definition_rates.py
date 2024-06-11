@@ -267,7 +267,7 @@ measures = [
         small_number_suppression=True,
     ),
     Measure(
-        id="ADTinjby6Ethnicity_rate",
+        id="ADTinj6byEthnicity_rate",
         numerator="ADTinj6",
         denominator="population",
         group_by="ethnicity",
