@@ -15,9 +15,7 @@ start <- "2020-03-01"
 for (i in c("measure_ADT_inj_rate.csv", 
             "measure_ADT_inj1_rate.csv", 
             "measure_ADT_inj3_rate.csv", 
-            "measure_ADT_inj6_rate.csv", 
-            "measure_ADT_oral_rate.csv",
-            "measure_ADTsecongen_rate.csv")){
+            "measure_ADT_inj6_rate.csv")){
 
   Rates <- read_csv(here::here("output", "measures", i))
   Rates_rounded <- as.data.frame(Rates)
@@ -63,12 +61,19 @@ for (i in c("measure_ADT_inj_rate.csv",
   )
 }
 
-for (i in c("measure_ADToralbyIMD_rate.csv", 
-            "measure_ADToralbyEthnicity_rate.csv", 
-            "measure_ADToralbyAge_rate.csv",
-            "measure_ADTinjbyIMD_rate.csv", 
+for (i in c("measure_ADTinjbyIMD_rate.csv", 
             "measure_ADTinjbyEthnicity_rate.csv", 
-            "measure_ADTinjbyAge_rate.csv")){
+            "measure_ADTinjbyAge_rate.csv",
+            "measure_ADTinj1byIMD_rate.csv", 
+            "measure_ADTinj1byEthnicity_rate.csv", 
+            "measure_ADTinj1byAge_rate.csv",
+            "measure_ADTinj3byIMD_rate.csv", 
+            "measure_ADTinj3byEthnicity_rate.csv", 
+            "measure_ADTinj3byAge_rate.csv",
+            "measure_ADTinj6byIMD_rate.csv", 
+            "measure_ADTinj6byEthnicity_rate.csv", 
+            "measure_ADTinj6byAge_rate.csv"
+            )){
   
   Rates <- read_csv(here::here("output", "measures", i))
   Rates_rounded <- as.data.frame(Rates)
@@ -121,20 +126,25 @@ Input <- read_csv(here::here("output", "input.csv"),col_types = cols(patient_id 
 Input2 <- Input[which(Input$prostate_ca==1),]
 a <- length(which(Input2$died<"2015-01-01"))
 #Input2 <- Input2[-(which(Input2$died<"2015-01-01")),]
-rm(Input)
+#rm(Input)
 Table1 <- as.data.frame(NA)
-xx <- c("total_number","average_age","sd_age","ADTsecond_gener","HCD", "HCDexpanded", "died_before15")
-Table1[xx] <- NA
+xx <- c("total_numberOverall","total_number","average_age","sd_age","died_before15",
+        "ADTinj",	"ADTinj1",	"ADTinj3",	"ADTinj6")
 
+Table1[xx] <- NA
+Table1[1,"total_numberOverall"] <- plyr::round_any(length(which(Input$prostate_ca==1)), 5, f = round)
 Table1[1,"total_number"] <- plyr::round_any(length(which(Input2$prostate_ca==1)), 5, f = round)
 
-Table1[1,"died_before15"] <- plyr::round_any(a, 5, f = round)
-Table1[1,"HCD"] <- plyr::round_any(length(which(Input2$HCD==1)), 5, f = round)
-Table1[1,"HCDexpanded"] <- plyr::round_any(length(which(Input2$HCDexpanded==1)), 5, f = round)
-Table1[1,"ADTsecond_gener"] <- plyr::round_any(length(which(Input2$ADTsecond_gener==1)), 5, f = round)
+Table1[1,"ADTinj"] <- plyr::round_any(length(which(Input2$ADTinj==1)), 5, f = round)
+Table1[1,"ADTinj1"] <- plyr::round_any(length(which(Input2$ADTinj1==1)), 5, f = round)
+Table1[1,"ADTinj3"] <- plyr::round_any(length(which(Input2$ADTinj3==1)), 5, f = round)
+Table1[1,"ADTinj6"] <- plyr::round_any(length(which(Input2$ADTinj6==1)), 5, f = round)
 
+
+Table1[1,"died_before15"] <- plyr::round_any(a, 5, f = round)
 Table1[1,"average_age"] <- mean(Input2$age_pa_ca)
 Table1[1,"sd_age"] <- sd(Input2$age_pa_ca)
+
 Table1[names(table(Input2$age_group))] <- NA
 Table1[1,names(table(Input2$age_group))] <- plyr::round_any(as.numeric(table(Input2$age_group)), 5, f = round)
 Table1[names(table(Input2$ethnicity))] <- NA
