@@ -42,10 +42,14 @@ for (i in c("measure_ADT_inj_rate.csv",
   Rates <- read_csv(here::here("output", "measures", i))
   Rates_rounded <- as.data.frame(Rates)
   
+  ### before redactor take the missing values to 1 becasue redactor does not work
+  Rates_rounded[which(is.na(Rates_rounded[,1])),1] <- 1
+  ###
+  
   ###
   # Redact and round counts 
   Rates_rounded[,1] <- redactor(Rates_rounded[,1])
-  Rates_rounded[,2] <- redactor(Rates_rounded[,2])
+  #Rates_rounded[,2] <- redactor(Rates_rounded[,2])
   # Round and recalc rates 
   for (j in 1:2){
     Rates_rounded[,j] <- plyr::round_any(Rates_rounded[,j], 5, f = round)}
@@ -106,7 +110,7 @@ for (i in c("measure_ADTinjbyIMD_rate.csv",
   ###
   # Redact and round counts 
   Rates_rounded[,2] <- redactor(Rates_rounded[,2])
-  Rates_rounded[,3] <- redactor(Rates_rounded[,3])
+  #Rates_rounded[,3] <- redactor(Rates_rounded[,3])
   # Round and recalc rates 
   for (j in 2:3){
     Rates_rounded[,j] <- plyr::round_any(Rates_rounded[,j], 5, f = round)}
