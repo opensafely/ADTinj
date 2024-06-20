@@ -175,3 +175,4 @@ Table1[names(table(Input2$sex))] <- NA
 Table1[1,names(table(Input2$sex))] <- plyr::round_any(as.numeric(table(Input2$sex)), 5, f = round)
 
 write.table(Table1, here::here("output", "Table1.csv"),sep = ",",row.names = FALSE)
+
