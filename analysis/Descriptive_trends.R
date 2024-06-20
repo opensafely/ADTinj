@@ -100,6 +100,9 @@ for (i in c("measure_ADTinjbyIMD_rate.csv",
   Rates <- read_csv(here::here("output", "measures", i))
   Rates_rounded <- as.data.frame(Rates)
   
+  
+  ### before redactor take the missing values to 1 becasue redactor does not work
+  Rates_rounded[which(is.na(Rates_rounded[,2])),2] <- 1
   ###
   # Redact and round counts 
   Rates_rounded[,2] <- redactor(Rates_rounded[,2])
